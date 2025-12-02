@@ -59,6 +59,15 @@ npm run preview
 
 This project uses TypeScript for type safety and better developer experience. The types are shared with the backend API to ensure consistency.
 
+## CI/CD
+
+This project includes GitHub Actions workflows for automated building and deployment to AWS S3. See [`.github/workflows/README.md`](.github/workflows/README.md) for setup instructions.
+
+The workflow:
+- Builds TypeScript code and creates production bundle using Vite
+- Deploys to S3 bucket `one-app` using OIDC federated identity
+- Optionally invalidates CloudFront cache
+
 ## Project Structure
 
 ```
