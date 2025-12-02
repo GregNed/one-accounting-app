@@ -2,6 +2,15 @@
 
 Vue.js + TypeScript frontend application for calculating account balances with transaction processing.
 
+## Implementation choices
+Vue is the only framework I have worked with before, so I chose it to be able to assess the code produces by the AI and reuse some of my own knowledge. I'm using TypeScript here as well as a good practice although in this tiny example it's an overkill. I've also added a CI/CD that builds TS and Vue using Vite, pushes the built package to an (imaginary) S3 bucket set up as a static website hosting, and also distributes it geographically using the CloudFront CDN. This is the same scheme as I use for the BI dashboard I built at work that I told you about as my only full-stack example. CD currently fails because the resources don't actually exist.
+
+# AI usage
+For this one, I heavily relied on Cursor (Composer 1) since I have little experience with the frontend, and there is a lot of boilerplate code. But I do understand how works overall. Key prompts:
+- the folder one_api contains the backend of my application. Create the frontend using Vue.js. Requirements: ...
+- use TypeScript
+- add a github actions ci/cd that builds js from ts and also builds using vite, and uploads the built code to s3 using an iam role via a federated identity
+
 ## Features
 
 - Input field for initial balance
