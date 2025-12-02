@@ -128,79 +128,64 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ref } from 'vue';
-import { calculateBalance } from './api.js';
+import { calculateBalance } from './api';
+import type { Transaction, CalculateBalanceResponse } from './types';
 
-export default {
-  name: 'App',
-  setup() {
-    const initialBalance = ref(0);
-    const transactions = ref([]);
-    const result = ref(null);
-    const loading = ref(false);
-    const error = ref(null);
+const initialBalance = ref<number>(0);
+const transactions = ref<Transaction[]>([]);
+const result = ref<CalculateBalanceResponse | null>(null);
+const loading = ref<boolean>(false);
+const error = ref<string | null>(null);
 
-    const addTransaction = () => {
-      transactions.value.push({
-        type: 'credit',
-        amount: 0
-      });
-    };
+const addTransaction = (): void => {
+  transactions.value.push({
+    type: 'credit',
+    amount: 0
+  });
+};
 
-    const removeTransaction = (index) => {
-      transactions.value.splice(index, 1);
-    };
+const removeTransaction = (index: number): void => {
+  transactions.value.splice(index, 1);
+};
 
-    const formatCurrency = (amount) => {
-      return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }).format(amount);
-    };
+const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(amount);
+};
 
-    const handleSubmit = async () => {
-      error.value = null;
-      result.value = null;
-      loading.value = true;
+const handleSubmit = async (): Promise<void> => {
+  error.value = null;
+  result.value = null;
+  loading.value = true;
 
-      try {
-        // Validate transactions
-        const validTransactions = transactions.value.filter(
-          t => t.amount > 0
-        );
+  try {
+    // Validate transactions
+    const validTransactions = transactions.value.filter(
+      (t) => t.amount > 0
+    );
 
-        if (validTransactions.length === 0) {
-          throw new Error('Please add at least one transaction with a positive amount');
-        }
+    if (validTransactions.length === 0) {
+      throw new Error('Please add at least one transaction with a positive amount');
+    }
 
-        const response = await calculateBalance(
-          initialBalance.value,
-          validTransactions
-        );
+    const response = await calculateBalance(
+      initialBalance.value,
+      validTransactions
+    );
 
-        result.value = response;
-      } catch (err) {
-        error.value = err.message || 'An error occurred while calculating the balance';
-      } finally {
-        loading.value = false;
-      }
-    };
-
-    return {
-      initialBalance,
-      transactions,
-      result,
-      loading,
-      error,
-      addTransaction,
-      removeTransaction,
-      formatCurrency,
-      handleSubmit
-    };
+    result.value = response;
+  } catch (err) {
+    error.value = err instanceof Error 
+      ? err.message 
+      : 'An error occurred while calculating the balance';
+  } finally {
+    loading.value = false;
   }
 };
 </script>
-

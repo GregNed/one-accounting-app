@@ -1,6 +1,6 @@
 # Account Balance Calculator - Frontend
 
-Vue.js frontend application for calculating account balances with transaction processing.
+Vue.js + TypeScript frontend application for calculating account balances with transaction processing.
 
 ## Features
 
@@ -55,17 +55,25 @@ npm run preview
 4. Click "Calculate Balance" to see the results
 5. If the account is in overdraft (negative balance), a warning message will be displayed
 
+## TypeScript
+
+This project uses TypeScript for type safety and better developer experience. The types are shared with the backend API to ensure consistency.
+
 ## Project Structure
 
 ```
 one_app/
 ├── src/
-│   ├── App.vue          # Main Vue component
-│   ├── api.js           # API service for backend communication
-│   ├── main.js          # Application entry point
+│   ├── App.vue          # Main Vue component (TypeScript)
+│   ├── api.ts           # API service for backend communication
+│   ├── types.ts         # TypeScript type definitions
+│   ├── main.ts          # Application entry point
+│   ├── env.d.ts         # Vue and Vite type declarations
 │   └── style.css        # Global styles
 ├── index.html           # HTML template
-├── vite.config.js       # Vite configuration
+├── vite.config.ts       # Vite configuration (TypeScript)
+├── tsconfig.json        # TypeScript configuration
+├── tsconfig.node.json   # TypeScript config for Node files
 └── package.json         # Dependencies and scripts
 
 ```
