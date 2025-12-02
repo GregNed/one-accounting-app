@@ -33,18 +33,17 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION || 'us-east-1' }}
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
           role-session-name: GitHubActions-Deploy
 
       - name: Upload to S3
         run: |
           aws s3 sync dist/ s3://one-app/ --delete --exact-timestamps
           
-      - name: Invalidate CloudFront cache (optional)
-        if: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID != '' }}
+      - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --distribution-id ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }} \
             --paths "/*"
 

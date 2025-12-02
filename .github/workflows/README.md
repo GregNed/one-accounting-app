@@ -14,8 +14,8 @@ This workflow builds the Vue.js application and deploys it to S3.
      - `s3:ListBucket`
      - (Optional) `cloudfront:CreateInvalidation` if using CloudFront
 
-2. **GitHub Secrets**
-   Configure the following secrets in your GitHub repository settings:
+2. **GitHub Variables**
+   Configure the following variables in your GitHub repository settings (Settings → Secrets and variables → Actions → Variables):
    - `AWS_ROLE_ARN`: The ARN of the IAM role (e.g., `arn:aws:iam::123456789012:role/github-actions-role`)
    - `AWS_REGION`: AWS region (defaults to `us-east-1` if not set)
    - `CLOUDFRONT_DISTRIBUTION_ID`: (Optional) CloudFront distribution ID for cache invalidation
